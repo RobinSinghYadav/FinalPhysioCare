@@ -320,11 +320,11 @@ const Login = () => {
         {/* Full Name Input (only for Sign Up) */}
         {state === 'Sign Up' && (
           <div className='flex flex-col'>
-            <label className='text-base font-medium'>Full Name</label>
+            <label className='text-base font-medium' >Full Name</label>
             <input
               className='border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
               type="text"
-              placeholder="Enter your full name"
+              placeholder="Enter your full name" required
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
@@ -337,7 +337,7 @@ const Login = () => {
           <input
             className='border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
             type="email"
-            placeholder="Enter your email"
+            placeholder="Enter your email" required
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
@@ -349,7 +349,7 @@ const Login = () => {
           <input
             className='border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
             type="password"
-            placeholder="Enter your password"
+            placeholder="Enter your password" required
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
@@ -374,7 +374,7 @@ const Login = () => {
       <input
         className='border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
         type="text"
-        placeholder="Enter your mobile number"
+        placeholder="Enter your mobile number" required
         onChange={(e) => {
           const value = e.target.value;
           // Allow only numbers and limit the length to 10 digits
