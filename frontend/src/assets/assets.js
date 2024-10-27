@@ -31,7 +31,15 @@ import doc13 from './doc13.png'
 import doc14 from './doc14.png'
 import doc15 from './doc15.png'
 import Dermatologist from './Dermatologist.svg'
-import Gastroenterologist from './Gastroenterologist.svg'
+// import Gastroenterologist from './Gastroenterologist.svg'
+import core1 from './core1.jpg';
+import Strengthening from './Strengthening.jpg'
+import Streching from './Stretching.jpg'
+import Balancing from './Balancing.jpg'
+import Posture from './Posture.jpg'
+import Mobility from './Mobility.png'
+
+
 import General_physician from './General_physician.svg'
 import Gynecologist from './Gynecologist.svg'
 import Neurologist from './Neurologist.svg'
@@ -60,28 +68,28 @@ export const assets = {
 
 export const specialityData = [
     {
-        speciality: 'General physician',
-        image: General_physician
+        speciality: 'Posture Correction Exercises',
+        image: Posture
     },
     {
-        speciality: 'Gynecologist',
-        image: Gynecologist
+        speciality: 'Mobility Exercises',
+        image: Mobility
     },
     {
-        speciality: 'Dermatologist',
-        image: Dermatologist
+        speciality: 'Balance and Coordination Exercises',
+        image: Balancing
     },
     {
-        speciality: 'Pediatricians',
-        image: Pediatricians
+        speciality: 'Strengthening Exercise',
+        image: Strengthening
     },
     {
-        speciality: 'Neurologist',
-        image: Neurologist
+        speciality: 'Stretching Exercises',
+        image: Streching
     },
     {
-        speciality: 'Gastroenterologist',
-        image: Gastroenterologist
+        speciality: 'Core Stability Exercises',
+        image: core1
     },
 ]
 
