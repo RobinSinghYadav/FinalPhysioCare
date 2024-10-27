@@ -45,8 +45,18 @@ import Gynecologist from './Gynecologist.svg'
 import Neurologist from './Neurologist.svg'
 import Pediatricians from './Pediatricians.svg'
 
+// new files on 27 october
+import squatsVideo from './videos/squats.mp4';
+// import lungesVideo from './videos/lunges.mp4';
+// import plankVideo from './videos/plank.mp4';
+
 
 export const assets = {
+
+    squatsVideo,
+    // lungesVideo,
+    // plankVideo,
+    
     appointment_img,
     header_img,
     group_profiles,
@@ -64,6 +74,9 @@ export const assets = {
     upload_icon,
     stripe_logo,
     razorpay_logo
+
+
+    
 }
 
 export const specialityData = [
