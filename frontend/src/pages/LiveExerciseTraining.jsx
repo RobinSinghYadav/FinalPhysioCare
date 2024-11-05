@@ -6,9 +6,11 @@ const LiveExerciseTraining = () => {
     const [selectedExercise, setSelectedExercise] = useState("squats");
     const [isPlaying, setIsPlaying] = useState(false);
     const [isCameraOn, setIsCameraOn] = useState(true);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isVideoMuted, setIsVideoMuted] = useState(true);
+    const [isCameraMuted, setIsCameraMuted] = useState(true);
     const [videoVolume, setVideoVolume] = useState(1);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
+    const [videoProgress, setVideoProgress] = useState(0);
     const videoRef = useRef(null);
     const webcamRef = useRef(null);
 
@@ -21,10 +23,9 @@ const LiveExerciseTraining = () => {
     const [videoDimensions, setVideoDimensions] = useState({ width: null, height: null });
 
     useEffect(() => {
-        // Get video dimensions on exercise change
         const selectedExerciseData = exercises.find((exercise) => exercise.id === selectedExercise);
         if (selectedExerciseData) {
-            const video = document.createElement("video"); // Create a video element
+            const video = document.createElement("video");
             video.preload = "metadata";
             video.src = selectedExerciseData.videoSrc;
             video.onloadedmetadata = () => {
@@ -35,27 +36,55 @@ const LiveExerciseTraining = () => {
         }
     }, [selectedExercise]);
 
+    useEffect(() => {
+        const updateProgress = () => {
+            if (videoRef.current) {
+                setVideoProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+            }
+        };
+
+        if (videoRef.current) {
+            videoRef.current.addEventListener("timeupdate", updateProgress);
+        }
+
+        return () => {
+            if (videoRef.current) {
+                videoRef.current.removeEventListener("timeupdate", updateProgress);
+            }
+        };
+    }, []);
+
     const handleExerciseChange = (event) => {
         setSelectedExercise(event.target.value);
         setIsPlaying(false);
+        if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+            setVideoProgress(0);
+        }
     };
 
     const togglePlayPause = () => {
         if (videoRef.current) {
-            if (videoRef.current.paused) {
+            if (videoRef.current.paused || videoRef.current.ended) {
                 videoRef.current.play();
+                setIsPlaying(true);
             } else {
                 videoRef.current.pause();
+                setIsPlaying(false);
             }
-            setIsPlaying(!videoRef.current.paused);
         }
     };
 
-    const toggleMute = () => {
+    const toggleVideoMute = () => {
         if (videoRef.current) {
             videoRef.current.muted = !videoRef.current.muted;
-            setIsMuted(videoRef.current.muted);
+            setIsVideoMuted(videoRef.current.muted);
         }
+    };
+
+    const toggleCameraMute = () => {
+        setIsCameraMuted(!isCameraMuted);
     };
 
     const handleVolumeChange = (event) => {
@@ -76,7 +105,12 @@ const LiveExerciseTraining = () => {
 
     const handleResolutionChange = (event) => {
         console.log("Resolution changed:", event.target.value);
-        // Implement logic to change video resolution based on selected option
+    };
+
+    const handleSeekChange = (event) => {
+        const seekTime = (parseFloat(event.target.value) / 100) * videoRef.current.duration;
+        videoRef.current.currentTime = seekTime;
+        setVideoProgress(event.target.value);
     };
 
     return (
@@ -99,10 +133,10 @@ const LiveExerciseTraining = () => {
                     ))}
                 </select>
                 <button
-                    onClick={() => setIsPlaying(true)}
+                    onClick={togglePlayPause}
                     className="ml-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
                 >
-                    Start Exercise
+                    {isPlaying ? "Pause Exercise" : "Start Exercise"}
                 </button>
             </div>
 
@@ -110,15 +144,16 @@ const LiveExerciseTraining = () => {
                 {/* Exercise Video with Controls */}
                 <div className="relative rounded-lg overflow-hidden shadow-md bg-gray-100">
                     <div style={{ width: videoDimensions.width, height: videoDimensions.height }}>
-                        {isPlaying ? (
+                        {selectedExercise ? (
                             <video
-                                src={
-                                    exercises.find((exercise) => exercise.id === selectedExercise)?.videoSrc
-                                }
+                                src={exercises.find((exercise) => exercise.id === selectedExercise)?.videoSrc}
                                 ref={videoRef}
                                 controls={false}
-                                autoPlay
+                                muted={isVideoMuted}
+                                autoPlay={isPlaying}
                                 className="w-full h-full object-cover rounded-lg"
+                                onPlay={() => setIsPlaying(true)}
+                                onPause={() => setIsPlaying(false)}
                             />
                         ) : (
                             <div className="flex items-center justify-center h-full text-gray-500">
@@ -132,8 +167,8 @@ const LiveExerciseTraining = () => {
                         <button onClick={togglePlayPause} className="text-blue-500">
                             {isPlaying ? "Pause" : "Play"}
                         </button>
-                        <button onClick={toggleMute} className="text-blue-500">
-                            {isMuted ? "Unmute" : "Mute"}
+                        <button onClick={toggleVideoMute} className="text-blue-500">
+                            {isVideoMuted ? "Unmute" : "Mute"}
                         </button>
                         <div className="flex items-center gap-2">
                             <label>Volume</label>
@@ -162,7 +197,7 @@ const LiveExerciseTraining = () => {
                         <div className="flex items-center gap-2">
                             <label>Resolution</label>
                             <select
-                                defaultValue="720p" // Default resolution
+                                defaultValue="720p"
                                 onChange={handleResolutionChange}
                                 className="border border-gray-300 rounded p-1"
                             >
@@ -172,14 +207,27 @@ const LiveExerciseTraining = () => {
                             </select>
                         </div>
                     </div>
+
+                    {/* Video Progress Slider */}
+                    <div className="flex items-center p-4">
+                        <label>Progress</label>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={videoProgress}
+                            onChange={handleSeekChange}
+                            className="w-full ml-2"
+                        />
+                    </div>
                 </div>
 
                 {/* Webcam Placeholder with Consistent Dimensions */}
                 <div className="relative rounded-lg overflow-hidden shadow-md bg-gray-100" style={{ width: videoDimensions.width, height: videoDimensions.height }}>
                     {isCameraOn ? (
                         <Webcam
-                            audio={true}
-                            muted={isMuted}
+                            audio={!isCameraMuted}
+                            muted={isCameraMuted}
                             ref={webcamRef}
                             width={videoDimensions.width}
                             height={videoDimensions.height}
@@ -191,11 +239,11 @@ const LiveExerciseTraining = () => {
                         </div>
                     )}
                     <div className="absolute bottom-0 left-0 bg-black bg-opacity-30 text-white p-2">
-                        <button onClick={() => setIsCameraOn(!isCameraOn)} className="text-blue-500 mr-4">
+                        <button onClick={() => setIsCameraOn(!isCameraOn)} className="text-sm">
                             {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
                         </button>
-                        <button onClick={() => setIsMuted(!isMuted)} className="text-blue-500">
-                            {isMuted ? "Unmute Mic" : "Mute Mic"}
+                        <button onClick={toggleCameraMute} className="text-sm ml-2">
+                            {isCameraMuted ? "Unmute Camera" : "Mute Camera"}
                         </button>
                     </div>
                 </div>
