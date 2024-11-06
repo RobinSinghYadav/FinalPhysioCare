@@ -1,6 +1,8 @@
 import React from 'react'
 import { assets } from '../assets/assets'
 
+
+
 const Header = () => {
   return (
     <div className='flex flex-col md:flex-row flex-wrap bg-primary rounded-lg px-6 md:px-10 lg:px-20'>
@@ -23,6 +25,8 @@ const Header = () => {
         {/*------------Right Side---------*/}
         <div className='md:w-1/2 relative'>
             <img className='w-full md:absolute bottom-0 h-auto rounded-lg' src={assets.header_img} alt="" />
+            {/* <img className='w-full md:absolute bottom-0 h-auto rounded-lg' src={assets.header_img2} alt="" /> */}
+
         </div>
     </div>
   )
