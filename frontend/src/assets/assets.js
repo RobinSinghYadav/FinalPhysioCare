@@ -47,15 +47,15 @@ import General_physician from './General_physician.svg'
 
 // new files on 27 october
 import squatsVideo from './videos/squats.mp4';
-// import lungesVideo from './videos/lunges.mp4';
-// import plankVideo from './videos/plank.mp4';
+import lungesVideo from './videos/lunges.mp4';
+import plankVideo from './videos/plank.mp4';
 
 
 export const assets = {
 
     squatsVideo,
-    // lungesVideo,
-    // plankVideo,
+    lungesVideo,
+    plankVideo,
     
     appointment_img,
     header_img,
