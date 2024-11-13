@@ -38,7 +38,7 @@ const doctorSchema=new mongoose.Schema({
 
     available: {
         type: Boolean,
-        required: true
+        default:true
     },
     fees: {
         type: Number,
@@ -54,11 +54,13 @@ const doctorSchema=new mongoose.Schema({
     },
     slots_booked: {
         type: Number,
-        default:{}
+        default:{}  // chatgpt tells that remove {} and add 0 in palce 
     }
 
 },{minimize:false})
 
 
 
-const doctorModel =mongoose.model('doctor',doctorSchema)
+const doctorModel = mongoose.models.doctor || mongoose.model('doctor',doctorSchema)
+
+export default doctorModel;
