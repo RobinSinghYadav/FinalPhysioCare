@@ -1,6 +1,12 @@
-// import React, { useState } from 'react'
+// import React, { useContext, useState } from 'react'
+// import { AppContext } from '../context/AppContext';
+// import axios from 'axios';
+// import { toast } from 'react-toastify';
 
 // const Login = () => {
+
+//   const {backendUrl,token,setToken}= useContext(AppContext)
+  
 
 //   const [state,setState]= useState('Sign Up')
 
@@ -11,27 +17,53 @@
 
 //   const onSubmitHandler = async (event)=>{
 //     event.preventDefault()
+// try{
+//   if(state=='sign Up'){
+//     const {data}= await axios.post(backendUrl + '/api/user/register',{name,password,email})
+//     if(data.success){
+//       localStorage.setItem('token',data.token)
+//       setToken(data.token)
+//     }
+//     else{
+//       toast.error(data.message)
+//     }
+//   }
+//   else{
+//     const {data}= await axios.post(backendUrl + '/api/user/login',{password,email})
+//     if(data.success){
+//       localStorage.setItem('token',data.token)
+//       setToken(data.token)
+//     }
+//     else{
+//       toast.error(data.message)
+//     }
+//   }
+//   }
+
+// catch(error){
+//   toast.error(error.message)
+// }
 //   }
 //   return (
-//     <form className='min-h-[80vh] flex items-center'>
+//     <form className='min-h-[80vh] flex items-center' onSubmit={onSubmitHandler}>
 //       <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg'>
 //         <p>{state=== 'Sign Up' ? "Create Account" : "Login"}</p>
 //         <p>Please {state=== 'Sign Up' ? "Create Account" : "Login in "} to Book Your Appointment</p>
 //         <div>
 //         <p>Full Name</p>
-//         <input type="text" onChange={(e)=>setName(e.target.name)} value={name} />
+//         <input type="text" onChange={(e)=>setName(e.target.value)} value={name} />
 //         </div>
 //         <div>
 //         <p>Email</p>
-//         <input type="email" onChange={(e)=>setName(e.target.name)} value={email} />
+//         <input type="email" onChange={(e)=>setEmail(e.target.value)} value={email} />
 //         </div>
 //         <div>
 //         <p>Password</p>
-//         <input type="passsword" onChange={(e)=>setName(e.target.name)} value={password} />
+//         <input type="passsword" onChange={(e)=>setPassword(e.target.value)} value={password} />
 //         </div>
 //         <div>
 //         <p>Mobile No.</p>
-//         <input type="text" onChange={(e)=>setName(e.target.name)} value={mobile} />
+//         <input type="text" onChange={(e)=>setMobile(e.target.value)} value={mobile} />
 //         </div>
 //         <button 
 //         type="submit" onClick={() => setState(state === 'Sign Up' ? 'Login' : 'Sign Up')}>
@@ -46,6 +78,9 @@
 // }
 
 // export default Login
+
+
+/*--------------------------END---------------------------------------*/
 
 // import React, { useState } from 'react';
 
@@ -254,7 +289,11 @@
 
 // export default Login;
 
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const countryCodes = [
   { code: '+93', country: 'Afghanistan' },
@@ -289,6 +328,10 @@ const countryCodes = [
 ];
 
 const Login = () => {
+
+  const {backendUrl,token,setToken}= useContext(AppContext)
+  const navigate = useNavigate()
+
   const [state, setState] = useState('Sign Up');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -299,12 +342,50 @@ const Login = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     // Handle form submission logic here (e.g., API calls)
-    if (state === 'Sign Up') {
-      console.log('Creating Account:', { name, email, password, mobile: countryCode + mobile });
-    } else {
-      console.log('Logging In:', { email, password });
+
+    // if (state === 'Sign Up') {
+    //   console.log('Creating Account:', { name, email, password, mobile: countryCode + mobile });
+    // } else {
+    //   console.log('Logging In:', { email, password });
+    // }
+
+    try{
+      if(state=='sign Up'){
+        const {data}= await axios.post(backendUrl + '/api/user/register',{name,password,email})
+        if(data.success){
+          localStorage.setItem('token',data.token)
+          setToken(data.token)
+        }
+        else{
+          toast.error(data.message)
+        }
+      }
+      else{
+        const {data}= await axios.post(backendUrl + '/api/user/login',{password,email})
+        if(data.success){
+          localStorage.setItem('token',data.token)
+          setToken(data.token)
+        }
+        else{
+          toast.error(data.message)
+        }
+      }
+      }
+    
+    catch(error){
+      toast.error(error.message)
     }
+
+   
   };
+
+  useEffect(()=>{
+    if(token){
+      navigate('/')
+    }
+  },[token])
+
+
 
   return (
     <form className='min-h-[80vh] flex items-center justify-center' onSubmit={onSubmitHandler}>
