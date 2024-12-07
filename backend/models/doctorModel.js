@@ -53,7 +53,7 @@ const doctorSchema=new mongoose.Schema({
         required: true
     },
     slots_booked: {
-        type: Number,
+        type: Object,
         default:{}  // chatgpt tells that remove {} and add 0 in palce 
     }
 
