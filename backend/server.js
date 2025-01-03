@@ -6,6 +6,7 @@ import connectCloudinary from './config/cloudnary.js';
 import adminRouter from './routes/adminRoutes.js';
 import doctorRouter from './routes/doctorRoutes.js';
 import userRouter from './routes/userRoute.js';
+import cookieParser from "cookie-parser"
 
 
 
@@ -23,7 +24,8 @@ connectCloudinary();
 //middlewares
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser())
+app.use(cors({credentials:true}));
 
 
 //api end points

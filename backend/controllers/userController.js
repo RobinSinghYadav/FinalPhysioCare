@@ -12,7 +12,7 @@ import razorpay from 'razorpay'
 //API to register User
 const registerUser = async(req,res)=>{
     try{
-        const {name,email,password}=req.body
+        const {name,email,password,phone}=req.body
 
         if(!name || !email || !password){
             return res.json({success:false,message:"Missing Details"})
@@ -25,20 +25,30 @@ const registerUser = async(req,res)=>{
         if(password.length<8){
             return res.json({success:false,message:"Password should be at least 8 characters long"})
         }
+        //Phone number
+        if (!/^\+\d+$/.test(phone)) {
+            return res.json({ success: false, message: "Please provide a valid phone number with country code" });
+          }
+          
+          const existingUser = await userModel.findOne({email});
+            if (existingUser) {
+            res.json({success:false,message: "User Already exists"})
+        }
+
 
         //hashing user password
         const salt=await bcrypt.genSalt(10)
         const hashedPassword=await bcrypt.hash(password,salt)
 
         const userData = {
-            name,email,password:hashedPassword
+            name,email,password:hashedPassword,phone
         }
         //saving user data to the database
         const newUser = new userModel(userData)
         const user = await newUser.save()
         
-        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET)
-        res.json({success:true,token})
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
+       res.json({success:true,token})
 
 
     }
@@ -70,9 +80,10 @@ const loginUser = async(req,res)=>{
             const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
              res.json({success:true,token})
         }
-        else{
-            res.json({success:false,message:"Incorrect Password"})
-        }
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
+
+     
+        return res.json({success:true});
 
        
 
@@ -288,6 +299,7 @@ const verifyRazorPay = async(req,res)=>{
             await appointmentModel.findByIdAndUpdate(orderInfo.receipt,{payment:true})
             res.json({success:true,message:'Payment Successful'})
         }
+  
         else{
             res.json({success:false,message:'Payment Failed'})
         }

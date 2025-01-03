@@ -71,7 +71,7 @@ const MyProfile = () => {
         <p className='text-neutral-500 underline mt-3'>CONTACT IMFORMATION</p>
         <div className='grid grid-cols-[1fr_3fr] gap-y-2.5 text-neutral-700'>
           <p className='font-medium'>Email Id:</p>
-          <p className='text-blue-500'>{userData.email}</p>
+          <p className='text-blue-500'>{userData.email}</p> <button className='border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all'>Verify Email</button>
           <p className='font-medium'>Phone:</p>
           {
         isEdit ? <input className='bg-gray-100 max-w-52' type="text" value={userData.phone} onChange={e=>setUserData(prev=>({...prev,phone:e.target.value}))}/> : <p className='text-blue-400'>{userData.phone}</p>
