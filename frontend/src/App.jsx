@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Doctors from './pages/Doctors';
@@ -15,12 +15,20 @@ import LiveExerciseTraining from './pages/LiveExerciseTraining';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Chatbot from "./components/Chatbot";
+
+
 
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
+  const [isChatbotVisible, setIsChatbotVisible] = useState(false);
+
+  const toggleChatbot = () => {
+    setIsChatbotVisible((prev) => !prev);
+  };
   return (
     <div className='mx-4 sm:mx-[10%]'>
       <ToastContainer />
@@ -50,6 +58,26 @@ const App = () => {
         <Route path='/services/live-exercise-training' element={<LiveExerciseTraining />} />
       </Routes>
 
+      <div className="relative">
+      {/* <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <Footer /> */}
+      <Chatbot isVisible={isChatbotVisible} onClose={() => setIsChatbotVisible(false)} />
+
+{/* Conditionally render the button */}
+{!isChatbotVisible && (
+  <button
+    onClick={toggleChatbot}
+    className="fixed bottom-20 mb-10 right-10 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600"
+  >
+    💬
+  </button>
+)}
+
+    </div>
+      
       <Footer />
     </div>
   );
