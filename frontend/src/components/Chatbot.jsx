@@ -259,7 +259,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import "../components/Chatbot.css";
+// import "../components/Chatbot.css";
 import "../components/Chatbot";
 
 const Chatbot = ({ isVisible, onClose }) => {
