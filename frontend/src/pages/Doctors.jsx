@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
+import { motion } from 'framer-motion';  // Import motion from framer-motion
+
 
 const Doctors = () => {
   const {speciality}=useParams()
@@ -25,6 +27,13 @@ const Doctors = () => {
 
 
   return (
+    <motion.div
+   
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+  >
     <div>
       <p className='text-gray-600'>Browse through the Therapist's Speciality.</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
@@ -58,6 +67,7 @@ const Doctors = () => {
       </div>
     </div>
     </div>
+    </motion.div>
   )
 }
 

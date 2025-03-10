@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-
+ 
 const userSchema=new mongoose.Schema({
     name: {
         type: String,
@@ -36,8 +36,21 @@ const userSchema=new mongoose.Schema({
     phone:{
         type: String,
         default: '0000000000'
-    }
-})
+    },
+    lastLogin:{
+        type:Date,
+        default:Date.now
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
+    },
+    resetPasswordToken:String,
+    resetPasswordExpiresAt:Date,
+    verficationToken:String,
+    verficationTokenExpiresAt:Date,
+},{timestamps:true})
+
 
 
 

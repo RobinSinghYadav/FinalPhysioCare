@@ -3,6 +3,8 @@ import {AppContext} from '../context/AppContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import {useNavigate} from 'react-router-dom'
+import { motion } from 'framer-motion';  // Import motion from framer-motion
+
 
 const MyAppointments = () => {
 
@@ -110,6 +112,13 @@ const MyAppointments = () => {
   },[token])
 
   return (
+    <motion.div
+   
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+  >
     <div>
       <p className='pb-3 mt-12 font-medium text-zinc-700 border-b'>My Appointments</p>
       <div>
@@ -132,12 +141,25 @@ const MyAppointments = () => {
               {!item.cancelled && !item.payment &&<button onClick={()=>appointmentRazorpay(item._id)} className='active:bg-blue-800 text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button>}
               {!item.cancelled &&  <button onClick={()=>cancelAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel Appointment</button>}
               {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Appointment Cancelled</button>}
+
+              {/* Video call link section */}
+    {!item.cancelled && item.payment  && (
+    //     <button className='sm:min-w-48 py-2 border rounded text-white bg-blue-400'><a  href="https://meet.jit.si/Consultation__John%20Doe" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline mt-2 text-sm">
+    //     Join Video Call
+    // </a></button> 
+    <a  href="https://meet.jit.si/Consultation__John%20Doe" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline mt-2 text-sm">
+        <button className='sm:min-w-48 py-2 border rounded hover:bg-blue-800 text-white bg-blue-400'>Join Video Call</button>
+     </a>
+
+    )}
+              
             </div>
           </div>
         ))}
       </div>
 
     </div>
+    </motion.div>
   )
 }
 
