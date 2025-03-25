@@ -123,7 +123,20 @@ const MyAppointments = () => {
       <p className='pb-3 mt-12 font-medium text-zinc-700 border-b'>My Appointments</p>
       <div>
         {appointments.map((item,index)=>(
-          <div className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b' key={index}>
+          <div 
+            className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b cursor-pointer hover:bg-gray-50 transition-colors' 
+            key={index} 
+            onClick={(e) => {
+              // Prevent navigation if clicking on buttons
+              if (e.target.tagName.toLowerCase() === 'button' || 
+                  e.target.closest('button') || 
+                  e.target.tagName.toLowerCase() === 'a' || 
+                  e.target.closest('a')) {
+                return;
+              }
+              navigate(`/doctor-prescription/${item._id}`, { state: { appointmentData: item } });
+            }}
+          >
             <div>
               <img className='w-32 bg-indigo-50' src={item.docData.image} alt="" />
             </div>
