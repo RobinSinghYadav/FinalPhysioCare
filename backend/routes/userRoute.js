@@ -1,11 +1,13 @@
 import express from 'express';
-import { registerUser,loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment, paymentRazorPay, verifyRazorPay } from '../controllers/userController.js';
+import { registerUser,VerifyEmail,loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment, paymentRazorPay, verifyRazorPay } from '../controllers/userController.js';
 import authUser from '../middlewares/authUser.js';
 import upload from '../middlewares/multer.js';
 
 const userRouter = express.Router();
 
 userRouter.post('/register', registerUser);
+userRouter.post('/verifyEmail',VerifyEmail); 
+
 
 userRouter.post('/login', loginUser);
 

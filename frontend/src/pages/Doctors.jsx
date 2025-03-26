@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
+import { motion } from 'framer-motion';  // Import motion from framer-motion
+
 
 const Doctors = () => {
   const {speciality}=useParams()
@@ -25,6 +27,13 @@ const Doctors = () => {
 
 
   return (
+    <motion.div
+   
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+  >
     <div>
       <p className='text-gray-600'>Browse through the Therapist's Speciality.</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
@@ -46,8 +55,8 @@ const Doctors = () => {
                 <img className='bg-blue-50' src={item.image} alt="" />
               
              <div className='p-4'>
-             <div className={`flex items-center gap-2 test-sm text-center ${item.available?text-green-500:text-gray-500}  `}>
-                <p className={`w-2 h-2 ${item.available?bg-green-500 :bg-gray-500} rounded-full`}></p><p>{item.available?'Available':'Not Available'}</p>
+             <div className={`flex items-center gap-2 test-sm text-center ${item.available?'text-green-500':'text-gray-500'}  `}>
+                <p className={`w-2 h-2 ${item.available?'bg-green-500' :'bg-gray-500'} rounded-full`}></p><p>{item.available?'Available':'Not Available'}</p>
               </div>
               <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
               <p className='text-gray-600 text-sm'>{item.speciality}</p>
@@ -58,6 +67,7 @@ const Doctors = () => {
       </div>
     </div>
     </div>
+    </motion.div>
   )
 }
 
