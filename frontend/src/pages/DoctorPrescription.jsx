@@ -16,8 +16,12 @@
 //   Download
 // } from 'lucide-react';
 // import html2canvas from 'html2canvas';
+// // import html2canvas from 'html2canvas/dist/html2canvas.js';
 // import jsPDF from 'jspdf';
 // import { assets } from '../assets/assets';
+
+
+
 
 // function DoctorPrescription() {
 //   const prescriptionRef = useRef(null);
@@ -522,13 +526,13 @@
 
 // export default DoctorPrescription;
 
+
+
 import React from 'react'
 
 const DoctorPrescription = () => {
   return (
-    <div>
-      
-    </div>
+    <div>DoctorPrescription</div>
   )
 }
 
