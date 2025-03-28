@@ -12,6 +12,7 @@ import Services from './pages/Services';  // Importing the Services overview pag
 import VideoConsultation from './pages/VideoConsultation';
 import VirtualExercise from './pages/VirtualExercise';
 import LiveExerciseTraining from './pages/LiveExerciseTraining';
+import DoctorPrescription from './pages/DoctorPrescription'
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -44,6 +45,7 @@ const App = () => {
         <Route path='/my-profile' element={<MyProfile />} />
         <Route path='/my-appointments' element={<MyAppointments />} />
         <Route path='/appointment/:docId' element={<Appointments />} />
+        <Route path='/doctor-prescription/:id' element={<DoctorPrescription />} />
         
         {/* Services Overview and Sub-Pages */}
         <Route path="/" element={<Home />} />

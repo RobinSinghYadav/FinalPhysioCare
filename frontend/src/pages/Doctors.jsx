@@ -4,6 +4,8 @@ import { AppContext } from '../context/AppContext'
 import { motion } from 'framer-motion';  // Import motion from framer-motion
 
 
+
+
 const Doctors = () => {
   const {speciality}=useParams()
   const [filterDoc, setFilterDoc] = useState([])
